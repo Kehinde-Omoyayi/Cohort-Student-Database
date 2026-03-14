@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Elite Academy</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script defer src="{% static 'js/home.js' %}"></script> 
+    <script defer src="{% static 'js/drop_down.js' %}"></script> -->
+</head>
+<body>
+
+<header class="navbar">
+    <div class="navbar-left">
+        <h1>Elite Academy</h1>
+    </div>
+
+    <div class="navbar-right">
+        <input type="text" id="searchInput" placeholder="Search Students">
+    </div>
+        <button id="themeToggle" class="nav-btn">🌙</button>
+
+        <!-- Hamburger Dropdown BEFORE Theme Toggle -->
+        <div class="dropdown">
+            <button id="dropdownButton" class="nav-btn hamburger">☰</button>
+            <div id="dropdownContent" class="dropdown-content">
+                {% if user.is_authenticated %}
+                    <button class="dropdown-item" onclick="location.href='{% url 'Home_page' %}'">Home</button>
+                    <button class="dropdown-item" onclick="location.href='{% url 'profile_page' %}'">Profile</button>
+                    <button class="dropdown-item" onclick="location.href='{% url 'logout_page' %}'">Logout</button>
+                {% else %}
+                    <button class="dropdown-item" onclick="location.href='{% url 'Home_page' %}'">Home</button>
+                    <button class="dropdown-item" onclick="location.href='{% url 'account_page' %}'">Create Account</button>
+                    <button class="dropdown-item" onclick="location.href='{% url 'login_page' %}'">Login</button>
+                    <button class="dropdown-item" onclick="location.href='{% url 'register_page' %}'">Register</button>
+                {% endif %}
+            </div>
+        </div>
+
+</header>
+
+<!-- rest of your page -->
+<section class="stats">
+    <div class="stat-card">
+        <h2 id="totalStudents">{{students|length}}</h2>
+        <p>Total Students</p>
+    </div>
+    <div class="stat-card">
+        <h2 id="activeStudents">{{total_graduates}}</h2>
+        <p>Current Graduates</p>
+    </div>
+    <div class="stat-card">
+        <h2 id="departments">{{total_dept}}</h2>
+        <p>Departments</p>
+    </div>
+</section>
+
+<section class="analytics">
+    <canvas id="studentChart"></canvas>
+</section>
+
+<section id="studentGrid" class="grid">
+    {% block content %}{% endblock %}
+</section>
+
+<div id="notification" class="notification"></div>
+
+</body>
+</html>
